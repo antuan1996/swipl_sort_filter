@@ -1,4 +1,4 @@
-plant("AAA", ["group_a"], ["group_b"], 20).
+plant("AAA", ["group_a"], ["group_b"], 10).
 plant("BBB", ["group_a"], ["group_c"], 20).
 plant("CCC", ["group_c"], [], 30).
 
