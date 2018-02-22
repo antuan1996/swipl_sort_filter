@@ -38,7 +38,35 @@ print_plant([NAME, ILLNESSES, CONTRAS, PROBABILITY]) :-
 	write("Вероятность найти: "),
 	writeln(PROBABILITY).
 
+print_name([NAME]) :-
+	write("Название: "),
+	writeln(NAME).
+
+entry_print_plants([]) :- writeln("Ничего не найдено"). 
+entry_print_plants([HEAD|TAIL]) :- writeln("Результаты поиска:"), print_plants([HEAD|TAIL]). 
+
 print_plants([]) :- writeln("-----------------").
 print_plants([HEAD|TAIL]) :- writeln("-----------------"), print_plant(HEAD), print_plants(TAIL).
 
-find_plants_interactive() :- writeln("Введите название болезни"), read(QUERY_ILLNESS), writeln("Введите противопоказания"), read(QUERY_CONTRAS), find(QUERY_ILLNESS, QUERY_CONTRAS, X), print_plants(X).
+print_names([]).
+print_names([HEAD|TAIL]) :- print_name(HEAD), print_names(TAIL).
+
+find_plants_interactive() :- writeln("Введите название болезни"), read(QUERY_ILLNESS), writeln("Введите противопоказания"), read(QUERY_CONTRAS), find(QUERY_ILLNESS, QUERY_CONTRAS, X), entry_print_plants(X).
+
+action(NUM) :- NUM is 1,!, find_plants_interactive().
+action(NUM) :- NUM is 2,!, list_plants().
+action(NUM) :- NUM is 3,!, show_info().
+action(NUM) :- NUM is 4,!, halt().
+action(_) :- writeln("Некорректный ввод").
+
+list_plants() :- findall([NAME], plant(NAME, _, _, _), PLANTS), print_names(PLANTS).
+
+show_info() :- writeln("Введите название растения"), read(NAME), findall([NAME, ILLNESSES, CONTRAS, PROBABILITY], plant(NAME, ILLNESSES, CONTRAS, PROBABILITY), PLANTS), print_plants(PLANTS).
+
+init_interactive() :- writeln("Что вы хотите сделать?"),
+ writeln("1 - Поиск растений по болезни"),
+ writeln("2 - Список названий трав"),
+ writeln("3 - Вывод информации по растению"),
+ writeln("4 - Выход"),
+  
+read(NUM), action(NUM), init_interactive().

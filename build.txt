@@ -1,0 +1,2 @@
+qsave_program(plant_exc, [goal(init_interactive), stand_alone(true)]).
+
